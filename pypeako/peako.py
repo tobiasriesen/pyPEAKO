@@ -918,8 +918,8 @@ class Peako(object):
             self.write_temporary_files()
         param_names = ('t_avg', 'h_avg', 'span', 'polyorder', 'width', 'prom')
         similarity_array = np.full([len(self.training_params[key]) for key in param_names], np.nan)
-        with tqdm(total=np.prod([len(self.training_params[key]) for key in self.training_params.keys()]),
-                  desc='Training Peako', disable=self.verbosity < 1) as pbar:
+        with tqdm(total=np.prod([len(self.training_params[key]) for key in param_names]),
+                  desc='Training Peako') as pbar:
             for i, t_avg in enumerate(self.training_params['t_avg']):
                 for j, h_avg in enumerate(self.training_params['h_avg']):
                     if not self.tempfiles:
@@ -1738,7 +1738,7 @@ class TrainingData(object):
 
         closeby = kwargs['closeby'] if 'closeby' in kwargs else np.repeat(None, len(self.spec_data))
         yRange = kwargs['yRange'] if 'yRange' in kwargs else np.repeat(None, len(self.spec_data))
-        
+
         for n in range(len(self.spec_data)):
             s = 0
             if closeby[n] is not None:
@@ -1959,7 +1959,7 @@ class TrainingData(object):
                     ax[1,1].scatter(event.xdata, event.ydata, color='black', zorder=2, marker='x')  # Mark the peak
                     self.all_markings[-1].append([event.xdata, event.ydata])  # Save the peak
                     fig.canvas.draw()  # Redraw the figure to update the plot
-        
+
 
             # Define callback for toggle button
             def ontoggle(change):
@@ -1972,7 +1972,7 @@ class TrainingData(object):
                 self.training_data_out[n_file][self.timeindex_center, self.heightindex_center, 0:len(xvals)] = xvals
                 self.plot_count[n_file] = len(self.all_markings)
                 self.all_markings.append([])
-                
+
                 # next spectrum...
                 self.heightindex_center = random.randint(r_range[0], r_range[1])
                 self.timeindex_center = random.randint(t_range[0], t_range[1])
@@ -1982,7 +1982,7 @@ class TrainingData(object):
                 self.fig, self.ax = ret
                 self.fig.canvas.draw()
                 self.fig.canvas.flush_events()
-                
+
             def onfinish(change):
                 for dim1 in range(3):
                     for dim2 in range(3):
@@ -2010,7 +2010,7 @@ class TrainingData(object):
                 pane_heights=[0, 6, 0.5]
             )
             return AL
-        
+
             vals = [point for marking in all_markings for point in marking]
             print(vals)
             return vals, peakPowers  # Return all marked peaks
@@ -2043,7 +2043,7 @@ class TrainingData(object):
         ax[1, 1].grid(True)
         ax[1, 1].legend()
         return fig, ax
-        
+
 
 
     def save_training_data(self):
