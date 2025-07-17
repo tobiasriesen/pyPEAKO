@@ -915,32 +915,8 @@ class Peako(object):
 
         if self.tempfiles:
             self.write_temporary_files()
-        similarity_array = np.full([len(self.training_params[key]) for key in self.training_params.keys()], np.nan)
-        for i, t_avg in enumerate(self.training_params['t_avg']):
-            for j, h_avg in enumerate(self.training_params['h_avg']):
-                if not self.tempfiles:
-                    avg_spec = average_spectra(self.spec_data, t_avg=t_avg, h_avg=h_avg)
-                for k, span in enumerate(self.training_params['span']):
-                    for l, polyorder in enumerate(self.training_params['polyorder']):
-                        if self.tempfiles:
-                            filenames_smoothing = [
-                                '.'.join(s.split('.')[:-1]) + f'_t{t_avg}_h{h_avg}_s{span}_p{polyorder}' + '.NCtemp'
-                                for s in self.specfiles]
-                        else:
-                            smoothed_spectra = smooth_spectra(avg_spec, self.spec_data, span=span, polyorder=polyorder,
-                                                              verbosity=self.verbosity)
-                        if self.multiprocessing:
-                            if self.tempfiles:
-                                arguments = [
-                                    (filenames_smoothing, self.spec_data, self.training_data, width, prom,
-                                     self.max_peaks,
-                                     self.fill_value, self.verbosity, self.marked_peaks_index[self.current_k]) for
-                                    width in self.training_params['width'] for prom in self.training_params['prom']]
-                            else:
-                                arguments = [(smoothed_spectra, self.training_data, self.spec_data, prom, wth,
-                                              self.max_peaks, self.fill_value, self.verbosity,
-                                              self.marked_peaks_index[self.current_k]) for wth in
-                                             self.training_params['width'] for prom in self.training_params['prom']]
+        param_names = ('t_avg', 'h_avg', 'span', 'polyorder', 'width', 'prom')
+        similarity_array = np.full([len(self.training_params[key]) for key in param_names], np.nan)
 
                             num_workers = 4  # len(arguments) if len(arguments) < mp.cpu_count() else mp.cpu_count()
                             print(f"pool of {num_workers} subprocesses...") if self.verbosity > 0 else None
