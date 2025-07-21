@@ -422,8 +422,7 @@ def average_spectra(spec_data, t_avg, h_avg, all_spectra=True, **kwargs):
             print(f'matrix B for convolution is {B}') if 'verbosity' in kwargs and kwargs['verbosity'] > 0 else None
             range_offsets = spec_data[f].chirp_start_indices.values
             for d in range(avg_specs['doppler_spectrum'].values.shape[2]):
-                print(f"averaging over bin {d}")
-                one_bin_avg = average_single_bin(spec_data[f]['doppler_spectrum'].values, B, d, range_offsets)
+                print(f"averaging over bin {d}", flush=True)
                 avg_specs['doppler_spectrum'][:, :, d] = one_bin_avg
         else:
             assert not all_spectra
