@@ -954,6 +954,7 @@ class Peako(object):
                                     wp_list = [(w, p) for w in range(len(self.training_params['width'])) for p in
                                                range(len(self.training_params['prom']))]
                                     pbar.update(len(result))
+                                    pbar.refresh()
                                 for m, r in enumerate(result):
                                     wth = arguments[m][4]
                                     prom = arguments[m][3]
@@ -974,6 +975,7 @@ class Peako(object):
                                 for m, wth in enumerate(self.training_params['width']):
                                     for n, prom in enumerate(self.training_params['prom']):
                                         pbar.update(1)
+                                        pbar.refresh()
                                         peako_peaks = get_peaks(smoothed_spectra, self.spec_data, prom, wth,
                                                                 max_peaks=self.max_peaks, fill_value=self.fill_value,
                                                                 verbosity=self.verbosity,
