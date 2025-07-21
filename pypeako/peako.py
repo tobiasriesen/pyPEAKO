@@ -424,7 +424,7 @@ def average_spectra(spec_data, t_avg, h_avg, all_spectra=True, **kwargs):
             for d in range(avg_specs['doppler_spectrum'].values.shape[2]):
                 print(f"averaging over bin {d}", flush=True)
                 one_bin_avg = average_single_bin(
-                    spec_dataset['doppler_spectrum'].values, B, d, range_offsets
+                    spec_data[f].values, B, d, range_offsets
                 )
                 avg_specs['doppler_spectrum'][:, :, d] = one_bin_avg
         else:
