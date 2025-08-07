@@ -684,18 +684,6 @@ def peak_detection_dask(spectra_array, prom, fill_value, width_thresh, max_peaks
     return out
 
 
-def detect_single_spectrum(spectrum, fill_value, prom, width_thresh, max_peaks):
-    # call scipy.signal.find_peaks to detect peaks in the (logarithmic) spectrum
-    # it is important that nan values are not included in the spectrum passed to si
-    locs, _ = si.find_peaks(spectrum, prominence=prom, width=width_thresh)
-    locs = locs[spectrum[locs] > fill_value]
-    locs = locs[0: max_peaks] if len(locs) > max_peaks else locs
-    #  artificially create output dimension of same length as Doppler bins to avoid xarray value error
-    out = np.full(spectrum.shape[0], 0, dtype=int)
-    out[range(len(locs))] = locs
-    return out
-
-
 class Peako(object):
     def __init__(self, training_data=[], optimization_method='loop', multiprocessing_flag=False,
                  temporary_files_flag=False, max_peaks=20, k=0, num_training_samples=None, save_similarities=True,
