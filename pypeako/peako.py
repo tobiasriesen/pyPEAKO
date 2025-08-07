@@ -752,10 +752,6 @@ class Peako(object):
             os.mkdir(self.plot_dir)
             print(f'creating directory {self.plot_dir}') if self.verbosity > 0 else None
 
-    #  if self.multiprocessing and not self.tempfiles:
-    #      warnings.warn("Can't use multiprocessing if temporary files flag is not set")
-    #      self.multiprocessing=False
-
     def mask_chirps(self, chirp_index: list, spec_data=False):
         """
         mask the peaks in self.training_data in the chirps indicated by chirp_index with nan values
